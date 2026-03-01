@@ -10,9 +10,9 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 
     /* Custom Colors based on BRD */
-    --color-primary: #0f172a; /* Navy Blue / Slate 900 */
-    --color-primary-light: #1e293b; 
-    --color-primary-dark: #020617;
+    --color-primary: #1e293b; /* Slightly brighter navy */
+    --color-primary-light: #334155;
+    --color-primary-dark: #0f172a;
     
     --color-secondary: #eab308; /* Yellow 500 */
     --color-secondary-light: #fef08a;

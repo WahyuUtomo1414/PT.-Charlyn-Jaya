@@ -2,42 +2,68 @@
     <x-slot name="title">Beranda</x-slot>
 
     <!-- 5.1 Hero Section -->
-    <section class="relative bg-primary pt-24 pb-32 lg:pt-36 lg:pb-40 overflow-hidden isolate">
-        <!-- Background Image with Overlay -->
-        <div class="absolute inset-0 -z-10">
-            <img src="https://images.unsplash.com/photo-1541888087525-2bf74d711c20?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-                alt="Konstruksi and Security Background" class="h-full w-full object-cover">
-            <div class="absolute inset-0 bg-primary/80 mix-blend-multiply"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/50 to-transparent"></div>
+    <section class="relative bg-primary min-h-screen flex items-center justify-center overflow-hidden isolate pt-20">
+        <!-- Background Video -->
+        <div class="absolute inset-0 -z-20">
+            <video class="h-full w-full object-cover" autoplay muted loop playsinline>
+                <source src="{{ asset('assets/Pembuatan_Video_Hero_Section_Website.mp4') }}" type="video/mp4">
+            </video>
         </div>
+        <!-- Primary Overlay -->
+        <div class="absolute inset-0 -z-10 bg-primary/80"></div>
 
-        <div class="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
-            <div class="mx-auto max-w-2xl lg:mx-0 text-center lg:text-left">
-                <div
-                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-secondary border border-white/20 text-sm font-semibold mb-6 backdrop-blur-sm animate-fade-in-up">
-                    <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
-                    Est. 2005
-                </div>
-                <h1 class="text-4xl font-black tracking-tight text-white sm:text-6xl mb-6 leading-tight drop-shadow-lg">
-                    Mitra Terpercaya untuk <span class="text-secondary">Keamanan</span> & <span
-                        class="text-secondary">Kebersihan</span>
+        <div
+            class="mx-auto max-w-7xl px-6 lg:px-8 relative z-10 w-full flex flex-col justify-between h-full min-h-[calc(100vh-5rem)]">
+
+            <div class="flex-grow flex flex-col justify-center max-w-3xl py-20 lg:py-24">
+                <h1 class="text-5xl lg:text-6xl font-black tracking-tight text-white mb-6 leading-tight">
+                    Mitra Terpercaya untuk<br>
+                    Keamanan & Kebersihan
                 </h1>
-                <p class="mt-6 text-lg leading-8 text-slate-300 max-w-xl mx-auto lg:mx-0 drop-shadow">
-                    Kami menyediakan layanan konstruksi, outsourcing tenaga keamanan (Security), dan kebersihan
-                    (Cleaning Service) profesional di Provinsi Maluku dan sekitarnya.
+                <p class="text-lg lg:text-xl text-slate-300 mb-10 max-w-2xl leading-relaxed">
+                    <strong class="text-white font-semibold flex items-center gap-2 mb-2">
+                        OPTIMALKAN KEAMANAN DAN KENYAMANAN BISNIS ANDA.
+                    </strong>
+                    Kami menyediakan layanan yang tidak hanya handal, namun juga dirancang khusus untuk merefleksikan
+                    standar tinggi di perusahaan Anda.
                 </p>
-                <div class="mt-10 flex items-center justify-center lg:justify-start gap-x-6">
+                <div class="flex flex-col sm:flex-row items-center gap-4">
                     <a href="#penawaran"
-                        class="rounded-full bg-secondary px-8 py-3.5 text-sm font-bold text-primary shadow-sm hover:bg-secondary-light hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                        Hubungi Kami
+                        class="w-full sm:w-auto inline-flex justify-center items-center rounded-md bg-secondary px-8 py-3.5 text-sm font-bold text-primary shadow-sm hover:bg-secondary-light transition-all">
+                        Hubungi Kami <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
                     </a>
                     <a href="{{ route('project') }}"
-                        class="text-sm font-semibold leading-6 text-white group flex items-center gap-2 transition-all hover:text-secondary">
-                        Lihat Layanan <span aria-hidden="true"
-                            class="group-hover:translate-x-1 transition-transform">→</span>
+                        class="w-full sm:w-auto inline-flex justify-center items-center rounded-md bg-white px-8 py-3.5 text-sm font-bold text-primary shadow-sm hover:bg-slate-50 transition-all">
+                        Layanan Kami
                     </a>
                 </div>
             </div>
+
+            <!-- Bottom Section -->
+            {{-- <div
+                class="grid grid-cols-1 md:grid-cols-2 gap-8 items-end pb-8 lg:pb-12 mt-4 lg:mt-12 border-t border-white/10 pt-8">
+                <div>
+                    <p class="text-sm text-slate-400 font-medium mb-4 uppercase tracking-wider">Layanan Utama</p>
+                    <div class="flex flex-wrap gap-6 items-center flex-row">
+                        <div class="flex items-center gap-2 text-white font-bold text-xl opacity-90"><i
+                                class="fa-solid fa-shield-halved text-secondary"></i> Security</div>
+                        <div class="flex items-center gap-2 text-white font-bold text-xl opacity-90"><i
+                                class="fa-solid fa-sparkles text-secondary"></i> Cleaning</div>
+                    </div>
+                </div>
+                <div class="md:text-right">
+                    <p class="text-sm text-slate-400 font-medium mb-4 uppercase tracking-wider">Tersertifikasi Oleh</p>
+                    <div class="flex md:justify-end gap-4 opacity-75">
+                        <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center text-primary text-2xl font-bold"
+                            title="ISO 9001"><i class="fa-solid fa-certificate"></i></div>
+                        <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center text-primary text-2xl font-bold"
+                            title="Izin Operasional BUJP"><i class="fa-solid fa-shield-cat"></i></div>
+                        <div class="w-14 h-14 bg-white rounded-full flex items-center justify-center text-primary text-2xl font-bold"
+                            title="K3 Umum"><i class="fa-solid fa-award"></i></div>
+                    </div>
+                </div>
+            </div> --}}
+
         </div>
     </section>
 

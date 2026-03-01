@@ -5,10 +5,8 @@
             <!-- Company Info & Logo -->
             <div class="space-y-6">
                 <a href="{{ route('home') }}" class="flex items-center gap-3">
-                    <div
-                        class="flex items-center justify-center w-12 h-12 rounded-xl bg-white text-primary font-black text-2xl shadow-lg">
-                        CJ
-                    </div>
+                    <img src="{{ asset('assets/logo.png') }}" alt="Logo PT. Charlyn Jaya"
+                        class="w-12 h-12 rounded-xl object-contain bg-white p-1 shadow-lg">
                     <div>
                         <span class="block font-bold text-xl text-white tracking-tight">PT. Charlyn Jaya</span>
                         <span class="block text-secondary text-sm font-medium">Mitra Terpercaya Anda</span>

@@ -7,21 +7,24 @@
     ];
 @endphp
 
-<header x-data="{ mobileMenuOpen: false }"
-    class="sticky top-0 z-50 bg-white border-b border-slate-100 shadow-sm transition-all duration-300">
+<header x-data="{ mobileMenuOpen: false, scrolled: false }" x-init="scrolled = window.scrollY > 20;
+window.addEventListener('scroll', () => scrolled = window.scrollY > 20)"
+    :class="(!scrolled && !mobileMenuOpen) ? 'bg-transparent border-transparent shadow-none' :
+    'bg-white border-b border-slate-100 shadow-sm'"
+    class="fixed top-0 inset-x-0 w-full z-50 transition-all duration-300">
     <nav class="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8" aria-label="Global">
 
         <!-- Logo -->
         <div class="flex lg:flex-1">
             <a href="{{ route('home') }}" class="-m-1.5 p-1.5 flex items-center gap-3 group">
-                <div
-                    class="flex items-center justify-center w-10 h-10 rounded-lg bg-primary text-white font-bold text-xl group-hover:bg-primary-light transition-colors shadow-md">
-                    CJ
-                </div>
+                <img src="{{ asset('assets/logo.png') }}" alt="Logo PT. Charlyn Jaya"
+                    class="w-10 h-10 rounded-lg object-contain bg-white shadow-md p-1">
                 <div>
-                    <span class="block font-bold text-lg text-primary leading-tight tracking-tight">PT. Charlyn
+                    <span :class="(!scrolled) ? 'text-white' : 'text-primary'"
+                        class="block font-bold text-lg leading-tight tracking-tight">PT. Charlyn
                         Jaya</span>
-                    <span class="block text-xs text-slate-500 font-medium">Security & Cleaning Service</span>
+                    <span :class="(!scrolled) ? 'text-slate-200' : 'text-slate-500'"
+                        class="block text-xs font-medium">Security & Cleaning Service</span>
                 </div>
             </a>
         </div>
@@ -29,7 +32,8 @@
         <!-- Mobile menu button -->
         <div class="flex lg:hidden">
             <button type="button" @click="mobileMenuOpen = true"
-                class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-slate-700 hover:text-primary transition-colors">
+                :class="(!scrolled) ? 'text-white hover:text-secondary' : 'text-slate-700 hover:text-primary'"
+                class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 transition-colors">
                 <span class="sr-only">Open main menu</span>
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                     aria-hidden="true">
@@ -43,7 +47,10 @@
         <div class="hidden lg:flex lg:gap-x-8">
             @foreach ($navLinks as $link)
                 <a href="{{ $link['url'] }}"
-                    class="text-sm font-semibold leading-6 transition-colors {{ request()->url() == $link['url'] ? 'text-primary border-b-2 border-secondary' : 'text-slate-600 hover:text-primary' }}">
+                    :class="(!scrolled) ?
+                    '{{ request()->url() == $link['url'] ? 'text-white border-b-2 border-secondary' : 'text-slate-100 hover:text-secondary' }}' :
+                    '{{ request()->url() == $link['url'] ? 'text-primary border-b-2 border-secondary' : 'text-slate-600 hover:text-primary' }}'"
+                    class="text-sm font-semibold leading-6 transition-colors">
                     {{ $link['name'] }}
                 </a>
             @endforeach
@@ -52,7 +59,9 @@
         <!-- CTA Button -->
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
             <a href="#penawaran"
-                class="inline-flex items-center gap-2 text-sm font-semibold leading-6 text-white bg-primary hover:bg-primary-light px-5 py-2.5 rounded-full transition-all shadow hover:shadow-md transform hover:-translate-y-0.5">
+                :class="(!scrolled) ? 'bg-white/15 border border-white/20 text-white hover:bg-white/25' :
+                'text-white bg-primary hover:bg-primary-light'"
+                class="inline-flex items-center gap-2 text-sm font-semibold leading-6 px-5 py-2.5 rounded-full transition-all shadow hover:shadow-md transform hover:-translate-y-0.5">
                 Hubungi Kami <i class="fa-solid fa-arrow-right text-secondary text-xs"></i>
             </a>
         </div>
@@ -70,10 +79,8 @@
 
             <div class="flex items-center justify-between">
                 <a href="{{ route('home') }}" class="-m-1.5 p-1.5 flex items-center gap-3">
-                    <div
-                        class="flex items-center justify-center w-8 h-8 rounded bg-primary text-white font-bold text-sm">
-                        CJ
-                    </div>
+                    <img src="{{ asset('assets/logo.png') }}" alt="Logo PT. Charlyn Jaya"
+                        class="w-8 h-8 rounded object-contain bg-white p-0.5 shadow-sm">
                     <span class="font-bold text-slate-900">PT. Charlyn Jaya</span>
                 </a>
                 <button type="button" @click="mobileMenuOpen = false"

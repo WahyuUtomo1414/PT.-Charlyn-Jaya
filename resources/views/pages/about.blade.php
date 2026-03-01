@@ -2,17 +2,24 @@
     <x-slot name="title">Tentang Kami</x-slot>
 
     <!-- 6.1 Hero Section -->
-    <section class="relative bg-primary pt-24 pb-24 overflow-hidden isolate">
-        <div
-            class="absolute inset-0 -z-10 bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-20 mix-blend-overlay">
+    <section class="relative bg-primary pt-32 pb-24 sm:pt-40 sm:pb-32 overflow-hidden isolate">
+        <!-- Background Video -->
+        <div class="absolute inset-0 -z-20">
+            <video class="h-full w-full object-cover" autoplay muted loop playsinline>
+                <source src="{{ asset('assets/Pembuatan_Video_Hero_Section_Website.mp4') }}" type="video/mp4">
+            </video>
         </div>
-        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-50 h-32"></div>
+        <!-- Primary Overlay -->
+        <div class="absolute inset-0 -z-10 bg-primary/80"></div>
+        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-50 h-28"></div>
 
-        <div class="mx-auto max-w-7xl px-6 lg:px-8 text-center">
-            <h1 class="text-4xl font-black tracking-tight text-white mb-6">Tentang <span
-                    class="text-secondary">Kami</span></h1>
-            <p class="text-lg text-slate-300 max-w-2xl mx-auto">Mengenal lebih dekat PT. Charlyn Jaya, sejarah, visi
-                misi, serta dedikasi kami dalam memberikan layanan terbaik.</p>
+        <div class="mx-auto max-w-7xl px-6 lg:px-8 text-center relative z-10">
+            <div class="max-w-3xl mx-auto rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm px-6 py-10">
+                <h1 class="text-4xl font-black tracking-tight text-white mb-6">Tentang <span
+                        class="text-secondary">Kami</span></h1>
+                <p class="text-lg text-slate-200 max-w-2xl mx-auto">Mengenal lebih dekat PT. Charlyn Jaya, sejarah, visi
+                    misi, serta dedikasi kami dalam memberikan layanan terbaik.</p>
+            </div>
         </div>
     </section>
 

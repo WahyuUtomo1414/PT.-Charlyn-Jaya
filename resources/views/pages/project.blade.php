@@ -2,17 +2,24 @@
     <x-slot name="title">Project & Jasa</x-slot>
 
     <!-- 8. Hero/Description Section -->
-    <section class="relative bg-primary pt-24 pb-24 overflow-hidden isolate">
-        <div
-            class="absolute inset-x-0 bottom-0 top-0 bg-[url('https://images.unsplash.com/photo-1621619856624-42fd193a0661?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay">
+    <section class="relative bg-primary pt-32 pb-24 sm:pt-40 sm:pb-32 overflow-hidden isolate">
+        <!-- Background Video -->
+        <div class="absolute inset-0 -z-20">
+            <video class="h-full w-full object-cover" autoplay muted loop playsinline>
+                <source src="{{ asset('assets/Pembuatan_Video_Hero_Section_Website.mp4') }}" type="video/mp4">
+            </video>
         </div>
-        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-white h-32"></div>
+        <!-- Primary Overlay -->
+        <div class="absolute inset-0 -z-10 bg-primary/80"></div>
+        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-white h-28"></div>
 
         <div class="mx-auto max-w-7xl px-6 lg:px-8 text-center relative z-10">
-            <h1 class="text-4xl font-black tracking-tight text-white mb-6">Project & <span
-                    class="text-secondary">Jasa</span></h1>
-            <p class="text-lg text-slate-300 max-w-3xl mx-auto">Pengalaman kami menyajikan hasil yang nyata. Temukan
-                layanan kami dan klien yang telah mempercayakan kepercayaannya.</p>
+            <div class="max-w-3xl mx-auto rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm px-6 py-10">
+                <h1 class="text-4xl font-black tracking-tight text-white mb-6">Project & <span
+                        class="text-secondary">Jasa</span></h1>
+                <p class="text-lg text-slate-200 max-w-3xl mx-auto">Pengalaman kami menyajikan hasil yang nyata. Temukan
+                    layanan kami dan klien yang telah mempercayakan kepercayaannya.</p>
+            </div>
         </div>
     </section>
 
