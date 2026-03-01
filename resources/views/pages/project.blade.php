@@ -213,7 +213,7 @@
             </div>
 
             <div class="mt-8 text-center sm:text-right">
-                <a href="#penawaran"
+                <a href="{{ route('filament.admin.auth.login') }}"
                     class="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-secondary group">
                     Ingin menjadi bagian dari klien kami? <span
                         class="bg-primary text-white px-4 py-2 rounded-full group-hover:bg-secondary group-hover:text-primary transition-colors ml-2">Hubungi

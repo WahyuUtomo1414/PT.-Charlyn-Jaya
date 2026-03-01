@@ -28,7 +28,7 @@
                     standar tinggi di perusahaan Anda.
                 </p>
                 <div class="flex flex-col sm:flex-row items-center gap-4">
-                    <a href="#penawaran"
+                    <a href="{{ route('filament.admin.auth.login') }}"
                         class="w-full sm:w-auto inline-flex justify-center items-center rounded-md bg-secondary px-8 py-3.5 text-sm font-bold text-primary shadow-sm hover:bg-secondary-light transition-all">
                         Hubungi Kami <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
                     </a>
@@ -258,7 +258,7 @@
                     Temukan jawaban atas pertanyaan yang sering diajukan mengenai layanan kami. Jika ada pertanyaan
                     lain, jangan ragu untuk menghubungi tim kami.
                 </p>
-                <a href="#penawaran"
+                <a href="mailto:charlynjaya@gmail.com"
                     class="inline-flex items-center gap-2 text-sm font-bold text-primary bg-secondary px-6 py-3 rounded-full hover:bg-white transition-colors">
                     Hubungi Support Kami
                 </a>
