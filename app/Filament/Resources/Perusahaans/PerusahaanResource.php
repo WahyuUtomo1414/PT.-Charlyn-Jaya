@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Perusahaans;
 
-use App\Filament\Resources\Perusahaans\Pages\CreatePerusahaan;
 use App\Filament\Resources\Perusahaans\Pages\EditPerusahaan;
 use App\Filament\Resources\Perusahaans\Pages\ListPerusahaans;
 use App\Filament\Resources\Perusahaans\Pages\ViewPerusahaan;
@@ -52,7 +51,6 @@ class PerusahaanResource extends Resource
     {
         return [
             'index' => ListPerusahaans::route('/'),
-            'create' => CreatePerusahaan::route('/create'),
             'view' => ViewPerusahaan::route('/{record}'),
             'edit' => EditPerusahaan::route('/{record}/edit'),
         ];
