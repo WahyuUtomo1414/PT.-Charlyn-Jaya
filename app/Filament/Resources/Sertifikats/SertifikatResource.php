@@ -20,7 +20,13 @@ class SertifikatResource extends Resource
 {
     protected static ?string $model = Sertifikat::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-shield-check';
+
+    protected static ?string $navigationLabel = 'Sertifikat';
+
+    protected static ?string $modelLabel = 'Sertifikat';
+
+    protected static ?string $pluralModelLabel = 'Sertifikat';
 
     public static function form(Schema $schema): Schema
     {

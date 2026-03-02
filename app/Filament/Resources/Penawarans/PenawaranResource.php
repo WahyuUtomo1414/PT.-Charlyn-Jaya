@@ -22,7 +22,13 @@ class PenawaranResource extends Resource
 {
     protected static ?string $model = Penawaran::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-document-text';
+
+    protected static ?string $navigationLabel = 'Penawaran';
+
+    protected static ?string $modelLabel = 'Penawaran';
+
+    protected static ?string $pluralModelLabel = 'Penawaran';
 
     public static function form(Schema $schema): Schema
     {

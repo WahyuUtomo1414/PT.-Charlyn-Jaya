@@ -22,7 +22,13 @@ class PerusahaanResource extends Resource
 {
     protected static ?string $model = Perusahaan::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-building-office-2';
+
+    protected static ?string $navigationLabel = 'Perusahaan';
+
+    protected static ?string $modelLabel = 'Perusahaan';
+
+    protected static ?string $pluralModelLabel = 'Perusahaan';
 
     public static function form(Schema $schema): Schema
     {

@@ -20,7 +20,13 @@ class PortofolioResource extends Resource
 {
     protected static ?string $model = Portofolio::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-photo';
+
+    protected static ?string $navigationLabel = 'Portofolio';
+
+    protected static ?string $modelLabel = 'Portofolio';
+
+    protected static ?string $pluralModelLabel = 'Portofolio';
 
     public static function form(Schema $schema): Schema
     {
