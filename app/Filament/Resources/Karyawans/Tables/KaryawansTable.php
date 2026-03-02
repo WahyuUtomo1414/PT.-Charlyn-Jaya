@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
@@ -20,8 +21,9 @@ class KaryawansTable
             ->columns([
                 TextColumn::make('nama')
                     ->searchable(),
-                TextColumn::make('foto')
-                    ->searchable(),
+                ImageColumn::make('foto')
+                    ->label('Foto')
+                    ->disk('public'),
                 TextColumn::make('jabatan')
                     ->searchable(),
                 IconColumn::make('active')

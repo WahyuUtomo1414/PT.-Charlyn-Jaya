@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Layanans\Schemas;
 
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
@@ -13,16 +15,42 @@ class LayananForm
     {
         return $schema
             ->components([
-                TextInput::make('benner')
-                    ->required(),
-                TextInput::make('icon')
+                FileUpload::make('benner')
+                    ->image()
+                    ->directory('layanan')
+                    ->required()
+                    ->columnSpanFull(),
+                FileUpload::make('icon')
+                    ->image()
+                    ->directory('layanan')
                     ->required(),
                 TextInput::make('nama')
                     ->required(),
                 Textarea::make('deskripsi')
                     ->columnSpanFull(),
-                TextInput::make('lingkup_layanan'),
-                TextInput::make('foto'),
+                Repeater::make('lingkup_layanan')
+                    ->schema([
+                        TextInput::make('value')
+                            ->label('Lingkup Layanan')
+                            ->required(),
+                    ])
+                    ->columnSpanFull()
+                    ->defaultItems(0)
+                    ->addActionLabel('Tambah Lingkup')
+                    ->formatStateUsing(fn (?array $state): array => collect($state ?? [])
+                        ->map(fn ($item) => is_array($item) ? $item : ['value' => $item])
+                        ->values()
+                        ->all())
+                    ->dehydrateStateUsing(fn (?array $state): array => collect($state ?? [])
+                        ->pluck('value')
+                        ->filter()
+                        ->values()
+                        ->all()),
+                FileUpload::make('foto')
+                    ->image()
+                    ->multiple()
+                    ->directory('layanan')
+                    ->columnSpanFull(),
                 Toggle::make('active')
                     ->required(),
 

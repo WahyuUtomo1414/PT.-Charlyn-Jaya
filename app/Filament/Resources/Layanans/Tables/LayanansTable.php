@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
@@ -18,12 +19,17 @@ class LayanansTable
     {
         return $table
             ->columns([
-                TextColumn::make('benner')
-                    ->searchable(),
-                TextColumn::make('icon')
-                    ->searchable(),
+                ImageColumn::make('benner')
+                    ->label('Benner')
+                    ->disk('public'),
+                ImageColumn::make('icon')
+                    ->label('Icon')
+                    ->disk('public'),
                 TextColumn::make('nama')
                     ->searchable(),
+                TextColumn::make('foto')
+                    ->label('Jumlah Foto')
+                    ->formatStateUsing(fn ($state): string => (string) count((array) ($state ?? []))),
                 IconColumn::make('active')
                     ->boolean(),
                 TextColumn::make('createdBy.name')

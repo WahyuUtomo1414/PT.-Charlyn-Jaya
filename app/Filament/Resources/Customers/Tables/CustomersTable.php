@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
@@ -20,10 +21,9 @@ class CustomersTable
             ->columns([
                 TextColumn::make('nama')
                     ->searchable(),
-                TextColumn::make('logo')
-                    ->searchable(),
-                TextColumn::make('kategori')
-                    ->searchable(),
+                ImageColumn::make('logo')
+                    ->label('Logo'),
+                TextColumn::make('kategori'),
                 TextColumn::make('alamat')
                     ->searchable(),
                 IconColumn::make('active')
