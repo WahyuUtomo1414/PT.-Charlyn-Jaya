@@ -118,11 +118,11 @@
             <p class="text-slate-400 text-sm text-center md:text-left">
                 &copy; {{ date('Y') }} PT. Charlyn Jaya. All rights reserved.
             </p>
-            <div class="text-slate-400 text-sm flex gap-4">
+            {{-- <div class="text-slate-400 text-sm flex gap-4">
                 <a href="#" class="hover:text-secondary transition-colors">Privacy Policy</a>
                 <span class="text-slate-600">|</span>
                 <a href="#" class="hover:text-secondary transition-colors">Terms of Service</a>
-            </div>
+            </div> --}}
         </div>
     </div>
 </footer>

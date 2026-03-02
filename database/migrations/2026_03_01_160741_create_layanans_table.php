@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('layanan', function (Blueprint $table) {
             $table->id();
-            $table->string('benner', 255)->nullable();
+            $table->string('benner', 255);
+            $table->string('icon', 255);
             $table->string('nama', 128);
             $table->text('deskripsi')->nullable();
             $table->json('lingkup_layanan')->nullable();
