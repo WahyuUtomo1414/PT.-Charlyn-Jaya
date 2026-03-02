@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Perusahaans\Schemas;
 
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -18,12 +17,8 @@ class PerusahaanForm
             ->components([
                 TextInput::make('nama')
                     ->required(),
-                Textarea::make('alamat')
-                    ->rows(3),
-                FileUpload::make('logo')
-                    ->image()
-                    ->directory('perusahaan')
-                    ->columnSpanFull(),
+                TextInput::make('alamat'),
+                TextInput::make('logo'),
                 Textarea::make('tentang_kami')
                     ->columnSpanFull(),
                 Textarea::make('filosofi')
@@ -52,10 +47,7 @@ class PerusahaanForm
                     ->label('Email address')
                     ->email(),
                 TextInput::make('no_wa'),
-                FileUpload::make('foto')
-                    ->image()
-                    ->directory('perusahaan')
-                    ->columnSpanFull(),
+                TextInput::make('foto'),
                 Repeater::make('media_sosial')
                     ->schema([
                         Select::make('platform')
@@ -96,6 +88,7 @@ class PerusahaanForm
                         ->all()),
                 Toggle::make('active')
                     ->required(),
+
             ]);
     }
 }

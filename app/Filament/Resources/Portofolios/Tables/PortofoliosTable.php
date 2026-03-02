@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Perusahaans\Tables;
+namespace App\Filament\Resources\Portofolios\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -12,24 +12,20 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
-class PerusahaansTable
+class PortofoliosTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('nama')
+                TextColumn::make('customer.id')
                     ->searchable(),
-                TextColumn::make('alamat')
+                TextColumn::make('layanan.id')
                     ->searchable(),
-                TextColumn::make('logo')
-                    ->searchable(),
-                TextColumn::make('email')
-                    ->label('Email address')
-                    ->searchable(),
-                TextColumn::make('no_wa')
-                    ->searchable(),
-                TextColumn::make('foto')
+                TextColumn::make('tahun_pekerjaan')
+                    ->date()
+                    ->sortable(),
+                TextColumn::make('status_pekerjaan')
                     ->searchable(),
                 IconColumn::make('active')
                     ->boolean(),

@@ -16,14 +16,13 @@ class ListPerusahaans extends ListRecords
 
         $record = Perusahaan::query()->orderBy('id')->first();
 
-        if (! $record) {
-            $record = Perusahaan::query()->create([
-                'nama' => 'PT. Charlyn Jaya',
-                'created_by' => 1,
-            ]);
+        if ($record) {
+            $this->redirect(PerusahaanResource::getUrl('view', ['record' => $record]));
+
+            return;
         }
 
-        $this->redirect(PerusahaanResource::getUrl('view', ['record' => $record]));
+        $this->redirect(PerusahaanResource::getUrl('create'));
     }
 
     protected function getHeaderActions(): array

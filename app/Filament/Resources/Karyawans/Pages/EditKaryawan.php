@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Filament\Resources\Perusahaans\Pages;
+namespace App\Filament\Resources\Karyawans\Pages;
 
-use App\Filament\Resources\Perusahaans\PerusahaanResource;
+use App\Filament\Resources\Karyawans\KaryawanResource;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Resources\Pages\EditRecord;
 
-class EditPerusahaan extends EditRecord
+class EditKaryawan extends EditRecord
 {
-    protected static string $resource = PerusahaanResource::class;
+    protected static string $resource = KaryawanResource::class;
 
     protected function getHeaderActions(): array
     {

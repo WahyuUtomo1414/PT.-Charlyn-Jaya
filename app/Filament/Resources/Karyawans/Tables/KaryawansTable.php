@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Perusahaans\Tables;
+namespace App\Filament\Resources\Karyawans\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -12,7 +12,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
-class PerusahaansTable
+class KaryawansTable
 {
     public static function configure(Table $table): Table
     {
@@ -20,16 +20,9 @@ class PerusahaansTable
             ->columns([
                 TextColumn::make('nama')
                     ->searchable(),
-                TextColumn::make('alamat')
-                    ->searchable(),
-                TextColumn::make('logo')
-                    ->searchable(),
-                TextColumn::make('email')
-                    ->label('Email address')
-                    ->searchable(),
-                TextColumn::make('no_wa')
-                    ->searchable(),
                 TextColumn::make('foto')
+                    ->searchable(),
+                TextColumn::make('jabatan')
                     ->searchable(),
                 IconColumn::make('active')
                     ->boolean(),

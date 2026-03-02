@@ -1,35 +1,38 @@
 <?php
 
-namespace App\Filament\Resources\Perusahaans\Tables;
+namespace App\Filament\Resources\Penawarans\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
-class PerusahaansTable
+class PenawaransTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('nama')
+                TextColumn::make('layanan.id')
+                    ->searchable(),
+                TextColumn::make('nama_perusahaan')
                     ->searchable(),
                 TextColumn::make('alamat')
                     ->searchable(),
-                TextColumn::make('logo')
+                TextColumn::make('tanggal_permintaan')
+                    ->date()
+                    ->sortable(),
+                TextColumn::make('file')
                     ->searchable(),
-                TextColumn::make('email')
-                    ->label('Email address')
+                TextColumn::make('status')
                     ->searchable(),
-                TextColumn::make('no_wa')
-                    ->searchable(),
-                TextColumn::make('foto')
+                TextColumn::make('catatan')
                     ->searchable(),
                 IconColumn::make('active')
                     ->boolean(),
@@ -64,6 +67,7 @@ class PerusahaansTable
                 TrashedFilter::make(),
             ])
             ->recordActions([
+                ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([
