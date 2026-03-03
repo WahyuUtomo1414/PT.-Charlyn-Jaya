@@ -28,7 +28,7 @@
                     standar tinggi di perusahaan Anda.
                 </p>
                 <div class="flex flex-col sm:flex-row items-center gap-4">
-                    <a href="{{ route('filament.admin.auth.login') }}"
+                    <a href="{{ $perusahaan?->email ? 'mailto:' . $perusahaan->email : '#' }}"
                         class="w-full sm:w-auto inline-flex justify-center items-center rounded-md bg-secondary px-8 py-3.5 text-sm font-bold text-primary shadow-sm hover:bg-secondary-light transition-all">
                         Hubungi Kami <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
                     </a>
@@ -176,80 +176,60 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Security Service -->
-                <div class="rounded-3xl bg-slate-50 overflow-hidden group hover:shadow-2xl transition-all duration-500">
-                    <div class="h-64 overflow-hidden relative">
-                        <div class="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors z-10">
+                @forelse ($layanan as $item)
+                    @php
+                        $image = $item->foto[0] ?? $item->benner;
+                        $imageUrl = $image
+                            ? (\Illuminate\Support\Str::startsWith($image, ['http://', 'https://'])
+                                ? $image
+                                : route('private-file', ['path' => ltrim($image, '/')]))
+                            : null;
+                        $icon = $item->icon;
+                        $iconIsFa = is_string($icon) && str_contains($icon, 'fa-');
+                        $iconUrl = $iconIsFa
+                            ? null
+                            : ($icon
+                                ? (\Illuminate\Support\Str::startsWith($icon, ['http://', 'https://'])
+                                    ? $icon
+                                    : route('private-file', ['path' => ltrim($icon, '/')]))
+                                : null);
+                    @endphp
+                    <div class="rounded-3xl bg-slate-50 overflow-hidden group hover:shadow-2xl transition-all duration-500">
+                        <div class="h-64 overflow-hidden relative">
+                            <div class="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors z-10">
+                            </div>
+                            @if ($imageUrl)
+                                <img src="{{ $imageUrl }}" alt="{{ $item->nama }}"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            @else
+                                <div class="w-full h-full bg-slate-200"></div>
+                            @endif
+                            <div
+                                class="absolute bottom-4 right-4 z-20 w-12 h-12 rounded-full bg-secondary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                @if ($iconIsFa)
+                                    <i class="{{ $icon }} text-primary text-xl"></i>
+                                @elseif ($iconUrl)
+                                    <img src="{{ $iconUrl }}" alt="{{ $item->nama }}"
+                                        class="w-6 h-6 object-contain">
+                                @else
+                                    <i class="fa-solid fa-briefcase text-primary text-xl"></i>
+                                @endif
+                            </div>
                         </div>
-                        <img src="https://images.unsplash.com/photo-1557555187-23d685287bc3?auto=format&fit=crop&q=80"
-                            alt="Security Service"
-                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        <div
-                            class="absolute bottom-4 right-4 z-20 w-12 h-12 rounded-full bg-secondary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                            <i class="fa-solid fa-user-shield text-primary text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="p-8">
-                        <h3 class="text-2xl font-bold text-primary mb-3">Security Service</h3>
-                        <p class="text-slate-600 mb-6 line-clamp-3">Penyediaan tenaga satuan pengamanan yang tanggap,
-                            terlatih, dan bersertifikat untuk menjaga aset dan lingkungan Anda dengan standar
-                            operasional yang ketat.</p>
-                        <a href="{{ route('project.show', 'security-service') }}"
-                            class="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-secondary transition-colors uppercase tracking-wider">
-                            Selengkapnya <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Cleaning Service -->
-                <div
-                    class="rounded-3xl bg-slate-50 overflow-hidden group hover:shadow-2xl transition-all duration-500 transform lg:-translate-y-8">
-                    <div class="h-64 overflow-hidden relative">
-                        <div class="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors z-10">
-                        </div>
-                        <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80"
-                            alt="Cleaning Service"
-                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        <div
-                            class="absolute bottom-4 right-4 z-20 w-12 h-12 rounded-full bg-secondary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                            <i class="fa-solid fa-sparkles text-primary text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="p-8">
-                        <h3 class="text-2xl font-bold text-primary mb-3">Cleaning Service</h3>
-                        <p class="text-slate-600 mb-6 line-clamp-3">Layanan kebersihan profesional dengan tenaga
-                            terdidik dan peralatan modern, menciptakan lingkungan yang bersih, sehat, dan nyaman untuk
-                            aktivitas Anda.</p>
-                        <a href="{{ route('project.show', 'cleaning-service') }}"
-                            class="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-secondary transition-colors uppercase tracking-wider">
-                            Selengkapnya <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Outsourcing -->
-                <div class="rounded-3xl bg-slate-50 overflow-hidden group hover:shadow-2xl transition-all duration-500">
-                    <div class="h-64 overflow-hidden relative">
-                        <div class="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors z-10">
-                        </div>
-                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80"
-                            alt="Outsourcing Service"
-                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        <div
-                            class="absolute bottom-4 right-4 z-20 w-12 h-12 rounded-full bg-secondary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                            <i class="fa-solid fa-users-gear text-primary text-xl"></i>
+                        <div class="p-8">
+                            <h3 class="text-2xl font-bold text-primary mb-3">{{ $item->nama }}</h3>
+                            <p class="text-slate-600 mb-6 line-clamp-3">
+                                {{ $item->deskripsi ?? 'Layanan profesional untuk mendukung kebutuhan operasional Anda.' }}
+                            </p>
+                            <a href="{{ route('project.show', \Illuminate\Support\Str::slug($item->nama)) }}"
+                                class="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-secondary transition-colors uppercase tracking-wider">
+                                Selengkapnya <i class="fa-solid fa-arrow-right"></i>
+                            </a>
                         </div>
                     </div>
-                    <div class="p-8">
-                        <h3 class="text-2xl font-bold text-primary mb-3">Outsourcing Service</h3>
-                        <p class="text-slate-600 mb-6 line-clamp-3">Penyediaan tenaga kerja pendukung operasional yang
-                            handal dan profesional, disesuaikan dengan kebutuhan spesifik perusahaan Anda.</p>
-                        <a href="{{ route('project.show', 'outsourcing-service') }}"
-                            class="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-secondary transition-colors uppercase tracking-wider">
-                            Selengkapnya <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
+                @empty
+                    <div class="rounded-3xl bg-slate-50 p-8 text-slate-600">Data layanan belum tersedia.</div>
+                @endforelse
             </div>
         </div>
     </section>

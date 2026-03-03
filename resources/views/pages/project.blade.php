@@ -20,74 +20,49 @@
     <section class="py-16 bg-white border-b border-slate-100">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div
-                    class="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:border-secondary transition-colors group">
+                @forelse ($layanan as $item)
+                    @php
+                        $icon = $item->icon;
+                        $iconIsFa = is_string($icon) && str_contains($icon, 'fa-');
+                        $iconUrl = $iconIsFa
+                            ? null
+                            : ($icon
+                                ? (\Illuminate\Support\Str::startsWith($icon, ['http://', 'https://'])
+                                    ? $icon
+                                    : route('private-file', ['path' => ltrim($icon, '/')]))
+                                : null);
+                        $list = is_array($item->lingkup_layanan) ? array_slice($item->lingkup_layanan, 0, 4) : [];
+                    @endphp
                     <div
-                        class="w-14 h-14 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-shield-halved text-2xl text-primary"></i>
+                        class="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:border-secondary transition-colors group">
+                        <div
+                            class="w-14 h-14 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
+                            @if ($iconIsFa)
+                                <i class="{{ $icon }} text-2xl text-primary"></i>
+                            @elseif ($iconUrl)
+                                <img src="{{ $iconUrl }}" alt="{{ $item->nama }}" class="w-7 h-7 object-contain">
+                            @else
+                                <i class="fa-solid fa-briefcase text-2xl text-primary"></i>
+                            @endif
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">{{ $item->nama }}</h3>
+                        <ul class="space-y-2 text-sm text-slate-600">
+                            @forelse ($list as $point)
+                                <li class="flex gap-2 items-center"><i
+                                        class="fa-solid fa-check text-secondary text-xs"></i>
+                                    {{ $point }}</li>
+                            @empty
+                                <li class="text-slate-500">Detail layanan akan segera tersedia.</li>
+                            @endforelse
+                        </ul>
+                        <a href="{{ route('project.show', \Illuminate\Support\Str::slug($item->nama)) }}"
+                            class="mt-6 inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-secondary transition-colors uppercase tracking-wider">
+                            Selengkapnya <i class="fa-solid fa-arrow-right"></i>
+                        </a>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Security Service</h3>
-                    <ul class="space-y-2 text-sm text-slate-600">
-                        <li class="flex gap-2 items-center"><i class="fa-solid fa-check text-secondary text-xs"></i>
-                            Pengamanan Gedung & Perkantoran</li>
-                        <li class="flex gap-2 items-center"><i class="fa-solid fa-check text-secondary text-xs"></i>
-                            Pengamanan Objek Vital</li>
-                        <li class="flex gap-2 items-center"><i class="fa-solid fa-check text-secondary text-xs"></i>
-                            Kawal Pribadi (VIP)</li>
-                        <li class="flex gap-2 items-center"><i class="fa-solid fa-check text-secondary text-xs"></i>
-                            Event Security</li>
-                    </ul>
-                    <a href="{{ route('project.show', 'security-service') }}"
-                        class="mt-6 inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-secondary transition-colors uppercase tracking-wider">
-                        Selengkapnya <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-                </div>
-
-                <div
-                    class="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:border-secondary transition-colors group">
-                    <div
-                        class="w-14 h-14 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-sparkles text-2xl text-primary"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Cleaning Service</h3>
-                    <ul class="space-y-2 text-sm text-slate-600">
-                        <li class="flex gap-2 items-center"><i class="fa-solid fa-check text-secondary text-xs"></i>
-                            Pembersihan Kantor & Gedung</li>
-                        <li class="flex gap-2 items-center"><i class="fa-solid fa-check text-secondary text-xs"></i>
-                            Rumah Sakit & Fasilitas Medis</li>
-                        <li class="flex gap-2 items-center"><i class="fa-solid fa-check text-secondary text-xs"></i>
-                            General Cleaning Projects</li>
-                        <li class="flex gap-2 items-center"><i class="fa-solid fa-check text-secondary text-xs"></i>
-                            Perawatan Taman (Gardening)</li>
-                    </ul>
-                    <a href="{{ route('project.show', 'cleaning-service') }}"
-                        class="mt-6 inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-secondary transition-colors uppercase tracking-wider">
-                        Selengkapnya <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-                </div>
-
-                <div
-                    class="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:border-secondary transition-colors group">
-                    <div
-                        class="w-14 h-14 bg-white rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-users-gear text-2xl text-primary"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Outsourcing</h3>
-                    <ul class="space-y-2 text-sm text-slate-600">
-                        <li class="flex gap-2 items-center"><i class="fa-solid fa-check text-secondary text-xs"></i>
-                            Tenaga Administrasi</li>
-                        <li class="flex gap-2 items-center"><i class="fa-solid fa-check text-secondary text-xs"></i>
-                            Resepsionis & Customer Service</li>
-                        <li class="flex gap-2 items-center"><i class="fa-solid fa-check text-secondary text-xs"></i>
-                            Driver Perusahaan</li>
-                        <li class="flex gap-2 items-center"><i class="fa-solid fa-check text-secondary text-xs"></i>
-                            Operator & Teknisi</li>
-                    </ul>
-                    <a href="{{ route('project.show', 'outsourcing-service') }}"
-                        class="mt-6 inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-secondary transition-colors uppercase tracking-wider">
-                        Selengkapnya <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-                </div>
+                @empty
+                    <div class="rounded-3xl bg-slate-50 p-8 text-slate-600">Data layanan belum tersedia.</div>
+                @endforelse
             </div>
         </div>
     </section>
@@ -225,11 +200,11 @@
             </div>
 
             <div class="mt-8 text-center sm:text-right">
-                <a href="{{ route('filament.admin.auth.login') }}"
+                <a href="{{ route('filament.admin.auth.login') }}" target="_blank"
                     class="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-secondary group">
                     Ingin menjadi bagian dari klien kami? <span
-                        class="bg-primary text-white px-4 py-2 rounded-full group-hover:bg-secondary group-hover:text-primary transition-colors ml-2">Hubungi
-                        Kami</span>
+                        class="bg-primary text-white px-4 py-2 rounded-full group-hover:bg-secondary group-hover:text-primary transition-colors ml-2">Buat
+                        Penawaran</span>
                 </a>
             </div>
 
