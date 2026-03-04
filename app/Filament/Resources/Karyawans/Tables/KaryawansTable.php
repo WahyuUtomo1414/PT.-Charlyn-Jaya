@@ -26,6 +26,13 @@ class KaryawansTable
                     ->disk('public'),
                 TextColumn::make('jabatan')
                     ->searchable(),
+                TextColumn::make('parent.nama')
+                    ->label('Atasan')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('urutan')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 IconColumn::make('active')
                     ->boolean(),
                 TextColumn::make('createdBy.name')
