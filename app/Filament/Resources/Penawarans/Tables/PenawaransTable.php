@@ -69,11 +69,17 @@ class PenawaransTable
             ])
             ->recordActions([
                 ViewAction::make(),
-                EditAction::make(),
+                EditAction::make()
+                    ->disabled(fn ($record): bool => $record->status === 'approve'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->action(function ($records): void {
+                            $records
+                                ->reject(fn ($record) => $record->status === 'approve')
+                                ->each->delete();
+                        }),
                     ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),
                 ]),

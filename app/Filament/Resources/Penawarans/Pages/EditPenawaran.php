@@ -13,13 +13,25 @@ class EditPenawaran extends EditRecord
 {
     protected static string $resource = PenawaranResource::class;
 
+    protected function authorizeAccess(): void
+    {
+        parent::authorizeAccess();
+
+        if ($this->record?->status === 'approve') {
+            abort(403);
+        }
+    }
+
     protected function getHeaderActions(): array
     {
         return [
             ViewAction::make(),
-            DeleteAction::make(),
-            ForceDeleteAction::make(),
-            RestoreAction::make(),
+            DeleteAction::make()
+                ->visible(fn (): bool => $this->record?->status !== 'approve'),
+            ForceDeleteAction::make()
+                ->visible(fn (): bool => $this->record?->status !== 'approve'),
+            RestoreAction::make()
+                ->visible(fn (): bool => $this->record?->status !== 'approve'),
         ];
     }
 }
