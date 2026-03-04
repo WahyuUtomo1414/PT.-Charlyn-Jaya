@@ -1,17 +1,6 @@
 <x-layout.app>
     <x-slot name="title">Tentang Kami</x-slot>
 
-    @php
-        $company = $perusahaan ?? null;
-        $heroImage = optional($company)->foto;
-        $heroImageUrl = $heroImage
-            ? (\Illuminate\Support\Str::startsWith($heroImage, ['http://', 'https://'])
-                ? $heroImage
-                : route('private-file', ['path' => ltrim($heroImage, '/')]))
-            : 'https://images.unsplash.com/photo-1574169208507-84376144848b?auto=format&fit=crop&q=80';
-        $misiList = collect(optional($company)->misi ?? []);
-    @endphp
-
     <!-- 6.1 Hero Section -->
     <section
         class="relative bg-primary pt-32 pb-24 sm:pt-40 sm:pb-32 overflow-hidden isolate border-b-2 border-slate-100">
@@ -118,7 +107,7 @@
     </section>
 
     <!-- 6.5 Sertifikat Section -->
-    <section class="py-24 sm:py-32 bg-slate-50">
+    <section class="py-24 sm:py-32 bg-slate-50" x-data="{ showModal: false, modalImage: '', modalTitle: '' }">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-base font-bold leading-7 text-secondary tracking-widest uppercase">Legalitas &
@@ -132,42 +121,54 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Sertifikat 1 -->
-                <div
-                    class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 group">
-                    <div class="p-8 pb-0 bg-slate-100/50 flex justify-center items-center h-64">
-                        <i
-                            class="fa-solid fa-certificate text-8xl text-slate-300 group-hover:text-secondary group-hover:scale-110 transition-all duration-500"></i>
+                @forelse ($sertifikats as $sertifikat)
+                    <div
+                        class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 group">
+                        <div class="p-8 pb-0 bg-slate-100/50 flex justify-center items-center h-64">
+                            @if ($sertifikat->foto_url)
+                                <button type="button"
+                                    @click="showModal = true; modalImage = '{{ $sertifikat->foto_url }}'; modalTitle = '{{ addslashes($sertifikat->nama) }}'"
+                                    class="focus:outline-none">
+                                    <img src="{{ $sertifikat->foto_url }}" alt="{{ $sertifikat->nama }}"
+                                        class="h-48 w-auto object-contain group-hover:scale-105 transition-transform duration-500">
+                                </button>
+                            @else
+                                <i
+                                    class="fa-solid fa-certificate text-8xl text-slate-300 group-hover:text-secondary group-hover:scale-110 transition-all duration-500"></i>
+                            @endif
+                        </div>
+                        <div class="p-6 text-center border-t border-slate-100">
+                            <h3 class="text-lg font-bold text-slate-900 mb-2">{{ $sertifikat->nama }}</h3>
+                            <p class="text-sm text-slate-500">{{ $sertifikat->jenis ?? '-' }}</p>
+                        </div>
                     </div>
-                    <div class="p-6 text-center border-t border-slate-100">
-                        <h3 class="text-lg font-bold text-slate-900 mb-2">Sertifikat ISO 9001:2015</h3>
-                        <p class="text-sm text-slate-500">Sistem Manajemen Mutu</p>
-                    </div>
-                </div>
+                @empty
+                    <div class="col-span-full text-center text-slate-500">Data sertifikat belum tersedia.</div>
+                @endforelse
+            </div>
+        </div>
 
-                <!-- Sertifikat 2 -->
-                <div
-                    class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 group">
-                    <div class="p-8 pb-0 bg-slate-100/50 flex justify-center items-center h-64">
-                        <i
-                            class="fa-solid fa-shield-cat text-8xl text-slate-300 group-hover:text-secondary group-hover:scale-110 transition-all duration-500"></i>
+        <div x-show="showModal" x-cloak class="fixed inset-0 z-50">
+            <div class="absolute inset-0 bg-black/70" @click="showModal = false"></div>
+            <div class="absolute inset-0 flex items-center justify-center p-6">
+                <div class="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl overflow-hidden">
+                    <button type="button"
+                        class="absolute top-3 right-3 w-9 h-9 rounded-full bg-slate-900/80 text-white flex items-center justify-center hover:bg-slate-900"
+                        @click="showModal = false">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <div class="p-6 border-b border-slate-200">
+                        <div class="text-lg font-bold text-slate-900" x-text="modalTitle"></div>
                     </div>
-                    <div class="p-6 text-center border-t border-slate-100">
-                        <h3 class="text-lg font-bold text-slate-900 mb-2">Izin Operasional BUJP</h3>
-                        <p class="text-sm text-slate-500">Mabes Polri - Keamanan Nasional</p>
+                    <div class="p-6 flex justify-center items-center">
+                        <img :src="modalImage" :alt="modalTitle" class="max-h-[70vh] w-auto object-contain">
                     </div>
-                </div>
-
-                <!-- Sertifikat 3 -->
-                <div
-                    class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 group">
-                    <div class="p-8 pb-0 bg-slate-100/50 flex justify-center items-center h-64">
-                        <i
-                            class="fa-solid fa-award text-8xl text-slate-300 group-hover:text-secondary group-hover:scale-110 transition-all duration-500"></i>
-                    </div>
-                    <div class="p-6 text-center border-t border-slate-100">
-                        <h3 class="text-lg font-bold text-slate-900 mb-2">Sertifikat K3 Umum</h3>
-                        <p class="text-sm text-slate-500">Kesehatan dan Keselamatan Kerja</p>
+                    <div class="p-6 pt-0 flex justify-end">
+                        <button type="button"
+                            class="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white hover:bg-primary-light"
+                            @click="showModal = false">
+                            Tutup <i class="fa-solid fa-xmark text-xs"></i>
+                        </button>
                     </div>
                 </div>
             </div>
