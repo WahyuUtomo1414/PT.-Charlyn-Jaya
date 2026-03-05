@@ -1,0 +1,102 @@
+<x-layout.app>
+    <x-slot name="title">Monitoring Penawaran</x-slot>
+
+    <div class="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 mt-16 text-slate-900">
+        <div class="max-w-7xl mx-auto">
+
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-6 border-b border-slate-200">
+                <div>
+                    <h1 class="text-3xl font-black text-primary tracking-tight">Monitoring Penawaran</h1>
+                    <p class="mt-2 text-slate-500">Pantau status penawaran yang telah Anda ajukan.</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <a href="{{ route('penawaran.create') }}"
+                        class="inline-flex items-center gap-2 bg-secondary text-primary font-bold px-6 py-3 rounded-xl shadow-md hover:bg-secondary-light hover:-translate-y-0.5 transition-all">
+                        <i class="fa-solid fa-plus text-sm"></i> Buat Penawaran Baru
+                    </a>
+                </div>
+            </div>
+
+            @if (session('success'))
+                <div
+                    class="mb-8 bg-green-50 text-green-700 p-4 rounded-xl text-sm border border-green-200 flex items-center gap-3">
+                    <i class="fa-solid fa-circle-check text-lg"></i>
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-600">
+                        <thead
+                            class="bg-slate-50 text-slate-800 uppercase text-xs font-bold tracking-wider border-b border-slate-200">
+                            <tr>
+                                <th scope="col" class="px-6 py-4">No / ID</th>
+                                <th scope="col" class="px-6 py-4">Layanan</th>
+                                <th scope="col" class="px-6 py-4">Nama Perusahaan</th>
+                                <th scope="col" class="px-6 py-4">Tanggal Permintaan</th>
+                                <th scope="col" class="px-6 py-4">Status</th>
+                                <th scope="col" class="px-6 py-4 text-right">Updated At</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            @forelse ($penawarans as $penawaran)
+                                <tr class="hover:bg-slate-50/50 transition-colors">
+                                    <td class="px-6 py-4 font-medium text-slate-900">
+                                        #{{ str_pad($penawaran->id, 5, '0', STR_PAD_LEFT) }}</td>
+                                    <td class="px-6 py-4 font-semibold text-primary">
+                                        {{ $penawaran->layanan?->nama ?? 'N/A' }}
+                                    </td>
+                                    <td class="px-6 py-4">{{ $penawaran->nama_perusahaan ?? '-' }}</td>
+                                    <td class="px-6 py-4">
+                                        {{ \Carbon\Carbon::parse($penawaran->tanggal_permintaan)->translatedFormat('d F Y H:i') }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        @if ($penawaran->status === 'pending')
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800">
+                                                <i class="fa-solid fa-clock opacity-70"></i> Pending
+                                            </span>
+                                        @elseif($penawaran->status === 'approve')
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800">
+                                                <i class="fa-solid fa-check-circle opacity-70"></i> Approve
+                                            </span>
+                                        @elseif($penawaran->status === 'reject')
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800">
+                                                <i class="fa-solid fa-times-circle opacity-70"></i> Reject
+                                            </span>
+                                        @else
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-800">
+                                                {{ ucfirst($penawaran->status) }}
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 text-right text-slate-500 text-xs">
+                                        {{ $penawaran->updated_at ? $penawaran->updated_at->diffForHumans() : '-' }}
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="px-6 py-12 text-center text-slate-500">
+                                        <div class="flex flex-col items-center justify-center">
+                                            <div
+                                                class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-slate-300">
+                                                <i class="fa-solid fa-folder-open text-2xl"></i>
+                                            </div>
+                                            <p class="font-medium text-slate-600 mb-1">Belum ada data penawaran</p>
+                                            <p class="text-sm">Anda belum mengajukan penawaran apapun saat ini.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</x-layout.app>

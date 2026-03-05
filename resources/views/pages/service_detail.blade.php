@@ -75,7 +75,7 @@
                         @endforelse
                     </ul>
 
-                    <a href="{{ route('filament.admin.auth.login') }}" target="_blank"
+                    <a href="{{ route('penawaran.create') }}"
                         class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-white font-bold hover:bg-primary-light transition-colors shadow-md hover:shadow-lg">
                         Buat Penawaran <i class="fa-solid fa-arrow-right text-secondary text-sm"></i>
                     </a>

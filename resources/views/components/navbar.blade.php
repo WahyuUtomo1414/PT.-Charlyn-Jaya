@@ -57,13 +57,35 @@ window.addEventListener('scroll', () => scrolled = window.scrollY > 20)"
         </div>
 
         <!-- CTA Button -->
-        <div class="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center">
-            <a href="{{ route('filament.admin.auth.login') }}" target="_blank"
-                :class="(!scrolled) ? 'bg-white/15 border border-white/20 text-white hover:bg-white/25' :
-                'text-white bg-primary hover:bg-primary-light'"
-                class="inline-flex items-center gap-2 text-sm font-semibold leading-6 px-5 py-2.5 rounded-full transition-all shadow hover:shadow-md transform hover:-translate-y-0.5">
-                Buat Penawaran <i class="fa-solid fa-arrow-right text-secondary text-xs"></i>
-            </a>
+        <div class="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center gap-4">
+            @auth
+                <a href="{{ auth()->user()->hasRole('super-admin') ? url('/admin') : route('penawaran.index') }}"
+                    :class="(!scrolled) ? 'text-white hover:text-secondary' : 'text-slate-600 hover:text-primary'"
+                    class="text-sm font-semibold leading-6 transition-colors font-bold">
+                    {{ auth()->user()->hasRole('super-admin') ? 'Admin Panel' : 'Monitoring' }}
+                </a>
+                <form action="{{ route('logout') }}" method="POST" class="inline">
+                    @csrf
+                    <button type="submit"
+                        :class="(!scrolled) ? 'bg-white/15 border border-white/20 text-white hover:bg-white/25' :
+                        'text-primary border border-slate-200 bg-white hover:bg-slate-50'"
+                        class="inline-flex items-center gap-2 text-sm font-bold leading-6 px-4 py-2 rounded-full transition-all shadow-sm hover:shadow transform hover:-translate-y-0.5">
+                        Logout
+                    </button>
+                </form>
+            @else
+                <a href="{{ route('login') }}"
+                    :class="(!scrolled) ? 'text-white hover:text-secondary' : 'text-slate-600 hover:text-primary'"
+                    class="text-sm font-bold leading-6 transition-colors mr-2">
+                    Masuk
+                </a>
+                <a href="{{ route('penawaran.create') }}"
+                    :class="(!scrolled) ? 'bg-white/15 border border-white/20 text-white hover:bg-white/25' :
+                    'text-white bg-primary hover:bg-primary-light'"
+                    class="inline-flex items-center gap-2 text-sm font-semibold leading-6 px-5 py-2.5 rounded-full transition-all shadow hover:shadow-md transform hover:-translate-y-0.5">
+                    Buat Penawaran <i class="fa-solid fa-arrow-right text-secondary text-xs"></i>
+                </a>
+            @endauth
         </div>
     </nav>
 
@@ -103,11 +125,29 @@ window.addEventListener('scroll', () => scrolled = window.scrollY > 20)"
                             </a>
                         @endforeach
                     </div>
-                    <div class="py-6">
-                        <a href="{{ route('filament.admin.auth.login') }}" target="_blank"
-                            class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white bg-primary text-center hover:bg-primary-light transition-colors">
-                            Buat Penawaran
-                        </a>
+                    <div class="py-6 space-y-3">
+                        @auth
+                            <a href="{{ auth()->user()->hasRole('super-admin') ? url('/admin') : route('penawaran.index') }}"
+                                class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-primary bg-slate-50 text-center hover:bg-slate-100 transition-colors">
+                                {{ auth()->user()->hasRole('super-admin') ? 'Admin Panel' : 'Monitoring Penawaran' }}
+                            </a>
+                            <form action="{{ route('logout') }}" method="POST" class="w-full">
+                                @csrf
+                                <button type="submit"
+                                    class="-mx-3 block w-full rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-red-600 bg-red-50 text-center hover:bg-red-100 transition-colors">
+                                    Logout
+                                </button>
+                            </form>
+                        @else
+                            <a href="{{ route('login') }}"
+                                class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-primary border border-primary text-center hover:bg-primary/5 transition-colors">
+                                Masuk Akun
+                            </a>
+                            <a href="{{ route('penawaran.create') }}"
+                                class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white bg-primary text-center hover:bg-primary-light transition-colors">
+                                Buat Penawaran
+                            </a>
+                        @endauth
                     </div>
                 </div>
             </div>

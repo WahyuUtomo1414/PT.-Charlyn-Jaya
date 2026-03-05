@@ -6,6 +6,8 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PenawaranPrintController;
 use App\Http\Controllers\PrivateFileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\FrontendAuthController;
+use App\Http\Controllers\CustomerPenawaranController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -22,3 +24,17 @@ Route::get('/project-jasa/{slug}', [ProjectController::class, 'show'])->name('pr
 Route::get('/private-file/{path}', PrivateFileController::class)
     ->where('path', '.*')
     ->name('private-file');
+
+// Frontend Auth
+Route::get('/login', [FrontendAuthController::class, 'showLogin'])->name('login')->middleware('guest');
+Route::post('/login', [FrontendAuthController::class, 'login'])->name('login.post')->middleware('guest');
+Route::get('/register', [FrontendAuthController::class, 'showRegister'])->name('register')->middleware('guest');
+Route::post('/register', [FrontendAuthController::class, 'register'])->name('register.post')->middleware('guest');
+Route::post('/logout', [FrontendAuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+// Customer Penawaran (Protected)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/penawaran', [CustomerPenawaranController::class, 'index'])->name('penawaran.index');
+    Route::get('/penawaran/create', [CustomerPenawaranController::class, 'create'])->name('penawaran.create');
+    Route::post('/penawaran', [CustomerPenawaranController::class, 'store'])->name('penawaran.store');
+});
