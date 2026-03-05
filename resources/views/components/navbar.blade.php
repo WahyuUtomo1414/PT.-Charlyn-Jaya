@@ -61,7 +61,7 @@ window.addEventListener('scroll', () => scrolled = window.scrollY > 20)"
                         '{{ request()->url() == route('penawaran.index') ? 'text-white border-b-2 border-secondary' : 'text-slate-100 hover:text-secondary' }}' :
                         '{{ request()->url() == route('penawaran.index') ? 'text-primary border-b-2 border-secondary' : 'text-slate-600 hover:text-primary' }}'"
                         class="text-sm font-semibold leading-6 transition-colors">
-                        Monitoring
+                        Penawaran
                     </a>
                 @endif
             @endauth

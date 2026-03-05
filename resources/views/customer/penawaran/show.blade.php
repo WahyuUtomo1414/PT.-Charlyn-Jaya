@@ -13,7 +13,7 @@
         </div>
     </section>
 
-    <div class="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 text-slate-900" x-data="{ showModal: false, fileUrl: '{{ $penawaran->file ? asset('storage/' . $penawaran->file) : '' }}', fileType: '{{ $penawaran->file ? (str_ends_with(strtolower($penawaran->file), 'pdf') ? 'application/pdf' : (in_array(pathinfo($penawaran->file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png']) ? 'image/' . pathinfo($penawaran->file, PATHINFO_EXTENSION) : 'other')) : '' }}' }">
+    <div class="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 text-slate-900" x-data="{ fileUrl: '{{ $penawaran->file ? route('penawaran.file', $penawaran->id) : '' }}' }">
         <div class="max-w-3xl mx-auto">
 
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
@@ -61,7 +61,7 @@
                         <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Tanggal Permintaan
                         </h3>
                         <p class="text-base font-medium text-slate-800">
-                            {{ \Carbon\Carbon::parse($penawaran->tanggal_permintaan)->translatedFormat('d F Y H:i') }}
+                            {{ \Carbon\Carbon::parse($penawaran->tanggal_permintaan)->translatedFormat('d F Y') }}
                         </p>
                     </div>
 
@@ -103,10 +103,10 @@
                                         {{ basename($penawaran->file) }}</p>
                                     <p class="text-xs text-slate-500">Telah dilampirkan</p>
                                 </div>
-                                <button type="button" @click="showModal = true"
-                                    class="flex-shrink-0 px-4 py-2 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 rounded-lg font-bold transition-colors text-sm flex items-center gap-2">
+                                <a :href="fileUrl" target="_blank"
+                                    class="flex-shrink-0 px-4 py-2 bg-primary text-white hover:bg-primary-light rounded-lg font-bold transition-colors text-sm flex items-center gap-2">
                                     <i class="fa-solid fa-eye"></i> Lihat
-                                </button>
+                                </a>
                             </div>
                         @else
                             <p class="text-sm text-slate-500 italic">Tidak ada file yang dilampirkan.</p>
@@ -131,53 +131,5 @@
 
         </div>
 
-        <!-- File Preview Modal -->
-        <div x-show="showModal" class="relative z-50" aria-labelledby="modal-title" role="dialog" aria-modal="true"
-            x-cloak>
-            <div x-show="showModal" x-transition.opacity
-                class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm transition-opacity"></div>
-
-            <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-                <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                    <div x-show="showModal" x-transition.opacity x-transition:enter="ease-out duration-300"
-                        x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                        x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                        class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-4xl flex flex-col h-[80vh]">
-                        <div
-                            class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 border-b border-slate-100 flex justify-between items-center">
-                            <h3 class="text-lg font-bold leading-6 text-slate-900" id="modal-title">Preview File</h3>
-                            <button @click="showModal = false" type="button"
-                                class="text-slate-400 hover:text-slate-600 focus:outline-none">
-                                <i class="fa-solid fa-xmark text-xl"></i>
-                            </button>
-                        </div>
-                        <div class="bg-slate-50 p-4 flex-grow overflow-auto flex items-center justify-center">
-                            <template x-if="fileType && fileType.startsWith('image/')">
-                                <img :src="fileUrl"
-                                    class="max-w-full max-h-full object-contain rounded-lg shadow-sm" alt="Preview" />
-                            </template>
-                            <template x-if="fileType === 'application/pdf'">
-                                <iframe :src="fileUrl"
-                                    class="w-full h-full rounded-lg border border-slate-200"></iframe>
-                            </template>
-                            <template
-                                x-if="fileType && !fileType.startsWith('image/') && fileType !== 'application/pdf'">
-                                <div class="text-center text-slate-500">
-                                    <i class="fa-solid fa-file-lines text-6xl mb-4 text-slate-300"></i>
-                                    <p>Tipe file ini dapat diunduh untuk dilihat.</p>
-                                    <a :href="fileUrl" download
-                                        class="mt-4 inline-block px-4 py-2 bg-primary text-white rounded-lg font-bold">Download
-                                        File</a>
-                                </div>
-                            </template>
-                        </div>
-                        <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                            <button type="button" @click="showModal = false"
-                                class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-6 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 sm:mt-0 sm:w-auto">Tutup</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </x-layout.app>

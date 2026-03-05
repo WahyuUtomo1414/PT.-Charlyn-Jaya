@@ -71,7 +71,7 @@
                                     </td>
                                     <td class="px-6 py-4">{{ $penawaran->nama_perusahaan ?? '-' }}</td>
                                     <td class="px-6 py-4">
-                                        {{ \Carbon\Carbon::parse($penawaran->tanggal_permintaan)->translatedFormat('d F Y H:i') }}
+                                        {{ \Carbon\Carbon::parse($penawaran->tanggal_permintaan)->translatedFormat('d F Y') }}
                                     </td>
                                     <td class="px-6 py-4">
                                         @if ($penawaran->status === 'pending')

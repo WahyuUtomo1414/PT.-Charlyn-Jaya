@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Layanan;
 use App\Models\Penawaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CustomerPenawaranController extends Controller
 {
@@ -37,7 +39,7 @@ class CustomerPenawaranController extends Controller
             'layanan_id' => 'required|exists:layanan,id',
             'nama_perusahaan' => 'nullable|string|max:255',
             'alamat' => 'nullable|string',
-            'tanggal_permintaan' => 'required|date',
+            'tanggal_permintaan' => 'required|date_format:Y-m-d',
             'deskripsi' => 'nullable|string',
             'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png',
             'catatan' => 'nullable|string',
@@ -47,7 +49,10 @@ class CustomerPenawaranController extends Controller
         $penawaran->layanan_id = $validated['layanan_id'];
         $penawaran->nama_perusahaan = $validated['nama_perusahaan'] ?? null;
         $penawaran->alamat = $validated['alamat'] ?? null;
-        $penawaran->tanggal_permintaan = $validated['tanggal_permintaan'];
+        $defaultTime = now()->format('H:i:s');
+        $penawaran->tanggal_permintaan = Carbon::createFromFormat('Y-m-d', $validated['tanggal_permintaan'])
+            ->setTimeFromTimeString($defaultTime)
+            ->format('Y-m-d H:i:s');
         $penawaran->deskripsi = $validated['deskripsi'] ?? null;
         $penawaran->catatan = $validated['catatan'] ?? null;
         $penawaran->status = 'pending';
@@ -74,5 +79,25 @@ class CustomerPenawaranController extends Controller
         }
 
         return view('customer.penawaran.show', compact('penawaran'));
+    }
+
+    public function file($id): StreamedResponse
+    {
+        $penawaran = Penawaran::findOrFail($id);
+
+        if ($penawaran->created_by !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        abort_unless($penawaran->file, 404);
+        abort_unless(Storage::disk('public')->exists($penawaran->file), 404);
+
+        $mimeType = Storage::disk('public')->mimeType($penawaran->file) ?? 'application/octet-stream';
+        $filename = basename($penawaran->file);
+
+        return Storage::disk('public')->response($penawaran->file, $filename, [
+            'Content-Type' => $mimeType,
+            'Content-Disposition' => 'inline; filename="'.$filename.'"',
+        ]);
     }
 }

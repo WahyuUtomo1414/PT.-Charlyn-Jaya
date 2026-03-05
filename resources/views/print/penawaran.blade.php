@@ -127,7 +127,7 @@
         <div><span class="label">Alamat</span>: {{ $penawaran->alamat ?? '-' }}</div>
         <div><span class="label">Layanan</span>: {{ $penawaran->layanan?->nama ?? '-' }}</div>
         <div><span class="label">Tanggal</span>:
-            {{ $penawaran->tanggal_permintaan ? \Illuminate\Support\Carbon::parse($penawaran->tanggal_permintaan)->format('d-m-Y H:i') : '-' }}
+            {{ $penawaran->tanggal_permintaan ? \Illuminate\Support\Carbon::parse($penawaran->tanggal_permintaan)->format('d-m-Y') : '-' }}
         </div>
         <div><span class="label">Status</span>: {{ $penawaran->status ?? '-' }}</div>
     </div>
