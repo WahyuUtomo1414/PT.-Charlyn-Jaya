@@ -1,7 +1,19 @@
 <x-layout.app>
     <x-slot name="title">Monitoring Penawaran</x-slot>
 
-    <div class="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 mt-16 text-slate-900">
+    <!-- Hero Section -->
+    <section class="relative bg-primary pt-32 pb-16 overflow-hidden isolate border-b-2 border-slate-100">
+        <div class="absolute inset-0 -z-10 opacity-20"
+            style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 32px 32px;"></div>
+        <div class="mx-auto max-w-7xl px-6 lg:px-8 text-center relative z-10">
+            <h1 class="text-4xl font-black tracking-tight text-white mb-4">Monitoring <span
+                    class="text-secondary">Penawaran</span></h1>
+            <p class="text-lg text-slate-300 max-w-2xl mx-auto font-medium">Pantau status penawaran yang telah Anda
+                ajukan kepada kami.</p>
+        </div>
+    </section>
+
+    <div class="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 text-slate-900">
         <div class="max-w-7xl mx-auto">
 
             <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-6 border-b border-slate-200">
@@ -36,6 +48,7 @@
                                 <th scope="col" class="px-6 py-4">Nama Perusahaan</th>
                                 <th scope="col" class="px-6 py-4">Tanggal Permintaan</th>
                                 <th scope="col" class="px-6 py-4">Status</th>
+                                <th scope="col" class="px-6 py-4 text-center">Aksi</th>
                                 <th scope="col" class="px-6 py-4 text-right">Updated At</th>
                             </tr>
                         </thead>
@@ -74,13 +87,27 @@
                                             </span>
                                         @endif
                                     </td>
+                                    <td class="px-6 py-4 text-center">
+                                        <div class="flex items-center justify-center gap-2">
+                                            <a href="{{ route('penawaran.show', $penawaran->id) }}"
+                                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors text-xs font-bold">
+                                                <i class="fa-solid fa-eye"></i> Detail
+                                            </a>
+                                            @if ($penawaran->status === 'approve')
+                                                <a href="{{ route('penawaran.print', $penawaran->id) }}" target="_blank"
+                                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors text-xs font-bold">
+                                                    <i class="fa-solid fa-print"></i> Print
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </td>
                                     <td class="px-6 py-4 text-right text-slate-500 text-xs">
                                         {{ $penawaran->updated_at ? $penawaran->updated_at->diffForHumans() : '-' }}
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="px-6 py-12 text-center text-slate-500">
+                                    <td colspan="7" class="px-6 py-12 text-center text-slate-500">
                                         <div class="flex flex-col items-center justify-center">
                                             <div
                                                 class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-slate-300">

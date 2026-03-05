@@ -1,11 +1,23 @@
 <x-layout.app>
     <x-slot name="title">Register</x-slot>
 
-    <div class="min-h-[calc(100vh-5rem)] flex items-center justify-center bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 mt-20">
-        <div class="max-w-md w-full space-y-8 bg-white p-10 rounded-3xl shadow-xl border border-slate-100">
+    <!-- Hero Section -->
+    <section class="relative bg-primary pt-32 pb-16 overflow-hidden isolate border-b-2 border-slate-100">
+        <div class="absolute inset-0 -z-10 opacity-20"
+            style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 32px 32px;"></div>
+        <div class="mx-auto max-w-7xl px-6 lg:px-8 text-center relative z-10">
+            <h1 class="text-4xl font-black tracking-tight text-white mb-4">Daftar <span class="text-secondary">Akun</span>
+            </h1>
+            <p class="text-lg text-slate-300 max-w-2xl mx-auto font-medium">Buat akun agar Anda dapat mulai mengajukan
+                penawaran.</p>
+        </div>
+    </section>
+
+    <div class="bg-slate-50 py-16 px-4 sm:px-6 lg:px-8 text-slate-900 flex justify-center">
+        <div class="max-w-md w-full space-y-8 bg-white p-8 sm:p-10 rounded-3xl shadow-xl border border-slate-100">
             <div>
-                <h2 class="mt-2 text-center text-3xl font-black text-primary uppercase tracking-tight">
-                    Daftar Akun
+                <h2 class="text-center text-3xl font-black text-primary uppercase tracking-tight">
+                    Register
                 </h2>
                 <p class="mt-2 text-center text-sm text-slate-600">
                     Sudah punya akun?

@@ -37,4 +37,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/penawaran', [CustomerPenawaranController::class, 'index'])->name('penawaran.index');
     Route::get('/penawaran/create', [CustomerPenawaranController::class, 'create'])->name('penawaran.create');
     Route::post('/penawaran', [CustomerPenawaranController::class, 'store'])->name('penawaran.store');
+    Route::get('/penawaran/{id}', [CustomerPenawaranController::class, 'show'])->name('penawaran.show');
 });

@@ -14,9 +14,11 @@ class PenawaranPrintController extends Controller
             ->orderBy('id')
             ->first(['id', 'nama', 'alamat', 'email', 'no_wa', 'logo']);
 
-        return view('print.penawaran', [
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('print.penawaran', [
             'perusahaan' => $perusahaan,
             'penawaran' => $penawaran->load(['layanan']),
-        ]);
+        ])->setPaper('a4', 'portrait');
+
+        return $pdf->stream('Penawaran_#'.str_pad($penawaran->id, 5, '0', STR_PAD_LEFT).'.pdf');
     }
 }

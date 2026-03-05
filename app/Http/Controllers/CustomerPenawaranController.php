@@ -61,4 +61,16 @@ class CustomerPenawaranController extends Controller
 
         return redirect()->route('penawaran.index')->with('success', 'Penawaran berhasil dibuat dan sedang dalam status Pending.');
     }
+
+    public function show($id)
+    {
+        $penawaran = Penawaran::with('layanan')->findOrFail($id);
+        
+        // Ensure customer can only view their own penawaran
+        if ($penawaran->created_by !== Auth::id() && !Auth::user()->hasRole('super-admin') && Auth::id() !== 1) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return view('customer.penawaran.show', compact('penawaran'));
+    }
 }
