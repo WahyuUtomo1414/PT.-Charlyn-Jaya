@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 
 class CustomerPenawaranController extends Controller
 {
+
+
     public function index()
     {
         // View for monitoring penawaran

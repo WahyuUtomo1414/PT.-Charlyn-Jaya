@@ -33,7 +33,7 @@ Route::post('/register', [FrontendAuthController::class, 'register'])->name('reg
 Route::post('/logout', [FrontendAuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 // Customer Penawaran (Protected)
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'customer.only'])->group(function () {
     Route::get('/penawaran', [CustomerPenawaranController::class, 'index'])->name('penawaran.index');
     Route::get('/penawaran/create', [CustomerPenawaranController::class, 'create'])->name('penawaran.create');
     Route::post('/penawaran', [CustomerPenawaranController::class, 'store'])->name('penawaran.store');

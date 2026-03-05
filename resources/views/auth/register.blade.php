@@ -2,7 +2,7 @@
     <x-slot name="title">Register</x-slot>
 
     <!-- Hero Section -->
-    <section class="relative bg-primary pt-32 pb-16 overflow-hidden isolate border-b-2 border-slate-100">
+    <section class="relative bg-primary pt-48 pb-16 overflow-hidden isolate border-b-2 border-slate-100">
         <div class="absolute inset-0 -z-10 opacity-20"
             style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 32px 32px;"></div>
         <div class="mx-auto max-w-7xl px-6 lg:px-8 text-center relative z-10">

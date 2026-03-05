@@ -2,7 +2,7 @@
     <x-slot name="title">Monitoring Penawaran</x-slot>
 
     <!-- Hero Section -->
-    <section class="relative bg-primary pt-32 pb-16 overflow-hidden isolate border-b-2 border-slate-100">
+    <section class="relative bg-primary pt-48 pb-16 overflow-hidden isolate border-b-2 border-slate-100">
         <div class="absolute inset-0 -z-10 opacity-20"
             style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 32px 32px;"></div>
         <div class="mx-auto max-w-7xl px-6 lg:px-8 text-center relative z-10">
@@ -16,16 +16,25 @@
     <div class="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 text-slate-900">
         <div class="max-w-7xl mx-auto">
 
-            <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-6 border-b border-slate-200">
+            <div
+                class="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-6 border-b border-slate-200 gap-4">
                 <div>
-                    <h1 class="text-3xl font-black text-primary tracking-tight">Monitoring Penawaran</h1>
-                    <p class="mt-2 text-slate-500">Pantau status penawaran yang telah Anda ajukan.</p>
+                    <h2 class="text-2xl font-black text-primary tracking-tight">Daftar Penawaran Anda</h2>
+                    <p class="mt-1 text-sm text-slate-500">Berikut adalah riwayat penawaran yang telah Anda kirimkan.
+                    </p>
                 </div>
-                <div class="mt-4 md:mt-0">
+                <div class="flex flex-wrap items-center gap-3">
                     <a href="{{ route('penawaran.create') }}"
-                        class="inline-flex items-center gap-2 bg-secondary text-primary font-bold px-6 py-3 rounded-xl shadow-md hover:bg-secondary-light hover:-translate-y-0.5 transition-all">
-                        <i class="fa-solid fa-plus text-sm"></i> Buat Penawaran Baru
+                        class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-bold hover:bg-primary-light transition-colors shadow-sm">
+                        <i class="fa-solid fa-plus"></i> Buat Penawaran
                     </a>
+                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit"
+                            class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-50 text-red-600 font-bold border border-red-100 hover:bg-red-100 transition-colors shadow-sm">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </button>
+                    </form>
                 </div>
             </div>
 
