@@ -5,18 +5,18 @@ namespace App\Mail;
 use App\Models\Po;
 use App\Models\Perusahaan;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class PoApprovedMail extends Mailable implements ShouldQueue
+class PoApprovedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $po;
     public $perusahaan;
+    public $logoBase64;
 
     /**
      * Create a new message instance.
@@ -27,6 +27,13 @@ class PoApprovedMail extends Mailable implements ShouldQueue
         $this->perusahaan = Perusahaan::query()
             ->orderBy('id')
             ->first(['nama', 'alamat', 'email', 'no_wa', 'logo']);
+
+        // Persiapkan Logo Base64 agar muncul di email meskipun testing lokal
+        $logoPath = public_path('assets/logo.png');
+        if (file_exists($logoPath)) {
+            $logoData = base64_encode(file_get_contents($logoPath));
+            $this->logoBase64 = 'data:image/png;base64,' . $logoData;
+        }
     }
 
     /**

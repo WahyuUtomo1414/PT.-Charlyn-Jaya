@@ -1,7 +1,7 @@
 <x-mail::message>
-@if($perusahaan && $perusahaan->logo)
+@if(isset($logoBase64) && $logoBase64)
 <div style="text-align: center; margin-bottom: 20px;">
-<img src="{{ asset('storage/' . ltrim($perusahaan->logo, '/')) }}" alt="{{ $perusahaan->nama }}" style="max-height: 80px;">
+<img src="{{ $logoBase64 }}" alt="{{ $perusahaan->nama ?? 'PT. CHARLYN JAYA' }}" style="max-height: 80px;">
 </div>
 @endif
 
@@ -16,10 +16,6 @@ Kami informasikan bahwa Purchase Order anda dengan nomor **{{ $po->no_po }}** te
 - **Perusahaan:** {{ $po->penawaran?->nama_perusahaan ?? '-' }}
 - **Layanan:** {{ $po->penawaran?->layanan?->nama ?? '-' }}
 - **Status:** Approved
-
-<x-mail::button :url="config('app.url') . '/po/' . $po->id">
-Lihat Detail PO
-</x-mail::button>
 
 Jika anda memiliki pertanyaan lebih lanjut, silakan hubungi kami melalui kontak di bawah ini.
 

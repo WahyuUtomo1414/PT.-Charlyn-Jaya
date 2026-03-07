@@ -13,10 +13,11 @@ class PoObserver
      */
     public function updated(Po $po): void
     {
-        if ($po->wasChanged('status') && $po->status === 'approve') {
+        if ($po->isDirty('status') && $po->status === 'approve') {
             $user = $po->createdBy;
 
             if ($user && $user->email) {
+                // Gunakan Mail::to()->queue() agar pengiriman otomatis tetap lewat antrian
                 Mail::to($user->email)->queue(new PoApprovedMail($po));
             }
         }
