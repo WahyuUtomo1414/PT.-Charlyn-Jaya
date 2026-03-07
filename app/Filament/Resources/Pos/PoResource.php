@@ -1,52 +1,53 @@
 <?php
 
-namespace App\Filament\Resources\Penawarans;
+namespace App\Filament\Resources\Pos;
 
-use App\Filament\Resources\Penawarans\Pages\CreatePenawaran;
-use App\Filament\Resources\Penawarans\Pages\EditPenawaran;
-use App\Filament\Resources\Penawarans\Pages\ListPenawarans;
-use App\Filament\Resources\Penawarans\Pages\ViewPenawaran;
-use App\Filament\Resources\Penawarans\Schemas\PenawaranForm;
-use App\Filament\Resources\Penawarans\Schemas\PenawaranInfolist;
-use App\Filament\Resources\Penawarans\Tables\PenawaransTable;
-use App\Models\Penawaran;
+use App\Filament\Resources\Pos\Pages\CreatePo;
+use App\Filament\Resources\Pos\Pages\EditPo;
+use App\Filament\Resources\Pos\Pages\ListPos;
+use App\Filament\Resources\Pos\Pages\ViewPo;
+use App\Filament\Resources\Pos\Schemas\PoForm;
+use App\Filament\Resources\Pos\Schemas\PoInfolist;
+use App\Filament\Resources\Pos\Tables\PosTable;
+use App\Models\Po;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Auth;
 use UnitEnum;
 
-class PenawaranResource extends Resource
+class PoResource extends Resource
 {
-    protected static ?string $model = Penawaran::class;
+    protected static ?string $model = Po::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-document-text';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-document-check';
 
-     protected static string | UnitEnum | null $navigationGroup = 'Leads Customer';
+    protected static string | UnitEnum | null $navigationGroup = 'Leads Customer';
 
-    protected static ?string $navigationLabel = 'Penawaran';
+    protected static ?string $navigationLabel = 'Po';
 
-    protected static ?string $modelLabel = 'Penawaran';
+    protected static ?string $modelLabel = 'Po';
 
-    protected static ?string $pluralModelLabel = 'Penawaran';
+    protected static ?string $pluralModelLabel = 'Po';
+
+    protected static ?string $recordTitleAttribute = 'no_po';
 
     public static function form(Schema $schema): Schema
     {
-        return PenawaranForm::configure($schema);
+        return PoForm::configure($schema);
     }
 
     public static function infolist(Schema $schema): Schema
     {
-        return PenawaranInfolist::configure($schema);
+        return PoInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table
     {
-        return PenawaransTable::configure($table);
+        return PosTable::configure($table);
     }
 
     public static function getEloquentQuery(): Builder
@@ -74,10 +75,10 @@ class PenawaranResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListPenawarans::route('/'),
-            'create' => CreatePenawaran::route('/create'),
-            'view' => ViewPenawaran::route('/{record}'),
-            'edit' => EditPenawaran::route('/{record}/edit'),
+            'index' => ListPos::route('/'),
+            'create' => CreatePo::route('/create'),
+            'view' => ViewPo::route('/{record}'),
+            'edit' => EditPo::route('/{record}/edit'),
         ];
     }
 

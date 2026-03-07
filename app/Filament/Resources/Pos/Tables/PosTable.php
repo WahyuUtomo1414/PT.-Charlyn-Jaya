@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Filament\Resources\Penawarans\Tables;
+namespace App\Filament\Resources\Pos\Tables;
 
-use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -13,65 +12,42 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
-class PenawaransTable
+class PosTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('layanan.nama')
-                    ->label('Layanan')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('nama_perusahaan')
+                TextColumn::make('penawaran.nama_perusahaan')
                     ->label('Perusahaan')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('quantity')
-                    ->label('Qty')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('deadline_pengerjaan')
-                    ->label('Deadline')
-                    ->date()
+                TextColumn::make('no_po')
+                    ->label('No. PO')
+                    ->searchable()
                     ->sortable(),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn (?string $state): string => match ($state) {
                         'pending' => 'warning',
-                        'proses' => 'info',
-                        'selesai' => 'success',
-                        'batal' => 'danger',
+                        'approve' => 'success',
+                        'reject' => 'danger',
                         default => 'gray',
                     })
                     ->searchable(),
-                TextColumn::make('tanggal_permintaan')
-                    ->label('Tgl Request')
-                    ->date()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('createdBy.name')
                     ->label('Dibuat Oleh')
-                    ->searchable()
-                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
-                    ->label('Dibuat Pada')
+                    ->label('Tanggal')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
             ])
             ->filters([
                 TrashedFilter::make(),
             ])
             ->actions([
                 ViewAction::make(),
-                Action::make('print')
-                    ->label('Print')
-                    ->icon('heroicon-m-printer')
-                    ->visible(fn ($record): bool => $record->status === 'approve')
-                    ->url(fn ($record): string => route('penawaran.print', $record))
-                    ->openUrlInNewTab(),
                 EditAction::make()
                     ->visible(fn ($record): bool => $record->status !== 'approve'),
             ])
