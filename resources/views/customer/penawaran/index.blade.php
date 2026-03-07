@@ -100,16 +100,24 @@
                                             </a>
                                             @if ($penawaran->status === 'po')
                                                 @if ($penawaran->file_penawaran)
-                                                    <a href="{{ route('private-file', ['path' => ltrim($penawaran->file_penawaran, '/')]) }}"
+                                                    <a href="{{ route('penawaran.file', ['id' => $penawaran->id, 'type' => 'admin']) }}"
                                                         target="_blank"
                                                         class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors text-xs font-bold">
                                                         <i class="fa-solid fa-file-pdf"></i> Lihat Penawaran
                                                     </a>
                                                 @endif
-                                                {{-- <a href="{{ route('po.create', ['penawaran_id' => $penawaran->id]) }}"
-                                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-50 text-green-700 hover:bg-green-100 transition-colors text-xs font-bold">
-                                                    <i class="fa-solid fa-plus-circle"></i> Buat PO
-                                                </a> --}}
+
+                                                @if ($penawaran->po)
+                                                    <a href="{{ route('po.show', $penawaran->po->id) }}"
+                                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-100 text-green-700 hover:bg-green-200 transition-colors text-xs font-bold">
+                                                        <i class="fa-solid fa-file-circle-check"></i> Detail PO
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('po.create', ['penawaran_id' => $penawaran->id]) }}"
+                                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-50 text-green-700 hover:bg-green-100 transition-colors text-xs font-bold">
+                                                        <i class="fa-solid fa-plus-circle"></i> Buat PO
+                                                    </a>
+                                                @endif
                                             @endif
                                         </div>
                                     </td>

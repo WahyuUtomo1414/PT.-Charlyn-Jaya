@@ -32,11 +32,16 @@ Route::get('/register', [FrontendAuthController::class, 'showRegister'])->name('
 Route::post('/register', [FrontendAuthController::class, 'register'])->name('register.post')->middleware('guest');
 Route::post('/logout', [FrontendAuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Customer Penawaran (Protected)
+// Customer Penawaran & PO (Protected)
 Route::middleware(['auth', 'customer.only'])->group(function () {
     Route::get('/penawaran', [CustomerPenawaranController::class, 'index'])->name('penawaran.index');
     Route::get('/penawaran/create', [CustomerPenawaranController::class, 'create'])->name('penawaran.create');
     Route::post('/penawaran', [CustomerPenawaranController::class, 'store'])->name('penawaran.store');
     Route::get('/penawaran/{id}', [CustomerPenawaranController::class, 'show'])->name('penawaran.show');
     Route::get('/penawaran/{id}/file', [CustomerPenawaranController::class, 'file'])->name('penawaran.file');
+
+    Route::get('/po/create', [\App\Http\Controllers\CustomerPoController::class, 'create'])->name('po.create');
+    Route::post('/po', [\App\Http\Controllers\CustomerPoController::class, 'store'])->name('po.store');
+    Route::get('/po/{id}', [\App\Http\Controllers\CustomerPoController::class, 'show'])->name('po.show');
+    Route::get('/po/{id}/file', [\App\Http\Controllers\CustomerPoController::class, 'file'])->name('po.file');
 });

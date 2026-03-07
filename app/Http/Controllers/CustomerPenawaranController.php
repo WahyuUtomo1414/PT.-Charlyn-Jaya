@@ -20,7 +20,7 @@ class CustomerPenawaranController extends Controller
         // View for monitoring penawaran
         // We assume 'created_by' is used to track ownership via AuditedBySoftDelete trait, or we just rely on standard methods. 
         // If there's no explicit relation, we query by created_by.
-        $penawarans = Penawaran::with('layanan')
+        $penawarans = Penawaran::with(['layanan', 'po'])
             ->where('created_by', Auth::id())
             ->orderBy('created_at', 'desc')
             ->get();
