@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CustomerPenawaranController extends Controller
@@ -84,21 +85,42 @@ class CustomerPenawaranController extends Controller
         return view('customer.penawaran.show', compact('penawaran'));
     }
 
-    public function file($id): StreamedResponse
+    public function file($id, Request $request): StreamedResponse
     {
         $penawaran = Penawaran::findOrFail($id);
 
-        if ($penawaran->created_by !== Auth::id()) {
+        // Ensure customer can only view their own penawaran
+        if ($penawaran->created_by !== Auth::id() && !Auth::user()->hasRole('super-admin') && Auth::id() !== 1) {
             abort(403, 'Unauthorized action.');
         }
 
-        abort_unless($penawaran->file, 404);
-        abort_unless(Storage::disk('public')->exists($penawaran->file), 404);
+        $type = $request->query('type', 'customer');
+        $filePath = ($type === 'admin') ? $penawaran->file_penawaran : $penawaran->file;
 
-        $mimeType = Storage::disk('public')->mimeType($penawaran->file) ?? 'application/octet-stream';
-        $filename = basename($penawaran->file);
+        abort_unless($filePath, 404);
 
-        return Storage::disk('public')->response($penawaran->file, $filename, [
+        $normalizedPath = ltrim($filePath, '/');
+        $publicPath = Str::startsWith($normalizedPath, 'storage/')
+            ? Str::after($normalizedPath, 'storage/')
+            : $normalizedPath;
+
+        $disk = null;
+        $resolvedPath = null;
+
+        if (Storage::disk('local')->exists($normalizedPath)) {
+            $disk = Storage::disk('local');
+            $resolvedPath = $normalizedPath;
+        } elseif (Storage::disk('public')->exists($publicPath)) {
+            $disk = Storage::disk('public');
+            $resolvedPath = $publicPath;
+        }
+
+        abort_unless($disk && $resolvedPath, 404);
+
+        $mimeType = $disk->mimeType($resolvedPath) ?? 'application/octet-stream';
+        $filename = basename($resolvedPath);
+
+        return $disk->response($resolvedPath, $filename, [
             'Content-Type' => $mimeType,
             'Content-Disposition' => 'inline; filename="'.$filename.'"',
         ]);

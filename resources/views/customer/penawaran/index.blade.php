@@ -2,7 +2,8 @@
     <x-slot name="title">Monitoring Penawaran</x-slot>
 
     <!-- Hero Section -->
-    <section class="relative bg-primary pt-32 pb-24 sm:pt-40 sm:pb-32 overflow-hidden isolate border-b-2 border-slate-100">
+    <section
+        class="relative bg-primary pt-32 pb-24 sm:pt-40 sm:pb-32 overflow-hidden isolate border-b-2 border-slate-100">
         <div class="absolute inset-0 -z-10 opacity-20"
             style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 32px 32px;"></div>
         <div class="mx-auto max-w-7xl px-6 lg:px-8 text-center relative z-10">
@@ -99,15 +100,16 @@
                                             </a>
                                             @if ($penawaran->status === 'po')
                                                 @if ($penawaran->file_penawaran)
-                                                    <a href="{{ asset('storage/' . $penawaran->file_penawaran) }}" target="_blank"
+                                                    <a href="{{ route('private-file', ['path' => ltrim($penawaran->file_penawaran, '/')]) }}"
+                                                        target="_blank"
                                                         class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors text-xs font-bold">
                                                         <i class="fa-solid fa-file-pdf"></i> Lihat Penawaran
                                                     </a>
                                                 @endif
-                                                <a href="{{ route('po.create', ['penawaran_id' => $penawaran->id]) }}"
+                                                {{-- <a href="{{ route('po.create', ['penawaran_id' => $penawaran->id]) }}"
                                                     class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-50 text-green-700 hover:bg-green-100 transition-colors text-xs font-bold">
                                                     <i class="fa-solid fa-plus-circle"></i> Buat PO
-                                                </a>
+                                                </a> --}}
                                             @endif
                                         </div>
                                     </td>

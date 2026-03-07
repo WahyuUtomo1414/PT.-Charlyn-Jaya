@@ -16,9 +16,16 @@
 
     <div class="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 text-slate-900" x-data="{
         fileUrl: null,
+        maxFileSize: 2 * 1024 * 1024,
         handleFile(e) {
             const file = e.target.files[0];
             if (file) {
+                if (file.size > this.maxFileSize) {
+                    alert('Ukuran file maksimal 2 MB.');
+                    e.target.value = '';
+                    this.fileUrl = null;
+                    return;
+                }
                 this.fileUrl = URL.createObjectURL(file);
             } else {
                 this.fileUrl = null;
@@ -96,29 +103,20 @@
                         <!-- Baris 4: Quantity (Kiri) & File (Kanan) -->
                         <div>
                             <label for="quantity" class="block text-sm font-bold text-slate-700 mb-2">Quantity <span
-                                    class="text-red-500">*</span>(Orang)</label>
+                                    class="text-red-500">*</span> (Orang)</label>
                             <input type="number" id="quantity" name="quantity" value="{{ old('quantity') }}" required
                                 min="1"
                                 class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-secondary focus:border-secondary transition-colors text-slate-700"
                                 placeholder="Jumlah unit/item">
                         </div>
 
-                        <div x-data="{ maxFileSize: 2 * 1024 * 1024 }">
+                        <div>
                             <label for="file" class="block text-sm font-bold text-slate-700 mb-2">File Lampiran
                                 (Opsional)</label>
                             <div class="flex items-center gap-2">
                                 <input type="file" id="file" name="file"
                                     accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                                    @change="
-                                        const file = $event.target.files[0];
-                                        if (file && file.size > maxFileSize) {
-                                            alert('Ukuran file maksimal 2 MB.');
-                                            $event.target.value = '';
-                                            fileUrl = null;
-                                            return;
-                                        }
-                                        handleFile($event);
-                                    "
+                                    @change="handleFile($event)"
                                     class="w-full px-3 py-2.5 border border-slate-300 rounded-xl focus:ring-2 focus:ring-secondary focus:border-secondary transition-colors text-slate-700 text-sm file:mr-2 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-primary/5 file:text-primary hover:file:bg-primary/10">
 
                                 <a x-show="fileUrl" :href="fileUrl" target="_blank"
@@ -145,14 +143,6 @@
                                 class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-secondary focus:border-secondary transition-colors text-slate-700"
                                 placeholder="Jelaskan kebutuhan secara detail...">{{ old('deskripsi') }}</textarea>
                         </div>
-
-                        {{-- <div class="col-span-1 md:col-span-2">
-                            <label for="catatan" class="block text-sm font-bold text-slate-700 mb-2">Catatan Tambahan
-                                (Optional)</label>
-                            <textarea id="catatan" name="catatan" rows="2"
-                                class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-secondary focus:border-secondary transition-colors text-slate-700"
-                                placeholder="Catatan ekstra...">{{ old('catatan') }}</textarea>
-                        </div> --}}
                     </div>
 
                     <div class="border-t border-slate-100 pt-6 mt-8 flex justify-end gap-4">

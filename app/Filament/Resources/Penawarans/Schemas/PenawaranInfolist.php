@@ -2,10 +2,8 @@
 
 namespace App\Filament\Resources\Penawarans\Schemas;
 
-use App\Models\Penawaran;
-use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Components\ViewEntry;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class PenawaranInfolist
@@ -27,13 +25,14 @@ class PenawaranInfolist
                             ->badge()
                             ->color(fn (string $state): string => match ($state) {
                                 'pending' => 'warning',
+                                'po' => 'success',
                                 'proses' => 'info',
                                 'selesai' => 'success',
                                 'batal' => 'danger',
                                 default => 'gray',
                             }),
                         TextEntry::make('quantity')
-                            ->label('Quantity')
+                            ->label('Quantity (Orang)')
                             ->numeric()
                             ->placeholder('-'),
                         TextEntry::make('deadline_pengerjaan')
@@ -44,7 +43,7 @@ class PenawaranInfolist
                             ->label('Tanggal Permintaan')
                             ->date()
                             ->placeholder('-'),
-                    ]),
+                    ])->columnSpanFull(),
                 
                 Section::make('Detail & Dokumen')
                     ->columns(2)
@@ -58,16 +57,24 @@ class PenawaranInfolist
                             ->markdown()
                             ->placeholder('-')
                             ->columnSpanFull(),
-                        TextEntry::make('catatan')
-                            ->label('Catatan')
-                            ->placeholder('-')
-                            ->columnSpanFull(),
-                        TextEntry::make('file_penawaran')
-                            ->label('File Penawaran')
-                            ->url(fn ($record) => $record->file_penawaran ? asset('storage/' . $record->file_penawaran) : null)
+                        
+                        // Dokumen Section
+                        TextEntry::make('file')
+                            ->label('File Customer')
+                            ->url(fn ($record) => $record->file ? route('private-file', ['path' => ltrim($record->file, '/')]) : null)
                             ->openUrlInNewTab()
-                            ->placeholder('Belum ada file'),
-                    ]),
+                            ->icon('heroicon-m-arrow-down-tray')
+                            ->color('primary')
+                            ->placeholder('Tidak ada file'),
+                        
+                        TextEntry::make('file_penawaran')
+                            ->label('File Penawaran (Admin)')
+                            ->url(fn ($record) => $record->file_penawaran ? route('private-file', ['path' => ltrim($record->file_penawaran, '/')]) : null)
+                            ->openUrlInNewTab()
+                            ->icon('heroicon-m-arrow-down-tray')
+                            ->color('success')
+                            ->placeholder('Belum diupload'),
+                    ])->columnSpanFull(),
 
                 Section::make('Audit Trail')
                     ->columns(2)
