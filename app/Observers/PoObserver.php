@@ -13,12 +13,13 @@ class PoObserver
      */
     public function updated(Po $po): void
     {
-        if ($po->isDirty('status') && $po->status === 'approve') {
+        // In "updated" event, use wasChanged() to check persisted changes.
+        if ($po->wasChanged('status') && $po->status === 'approve') {
             $user = $po->createdBy;
 
             if ($user && $user->email) {
-                // Gunakan Mail::to()->queue() agar pengiriman otomatis tetap lewat antrian
-                Mail::to($user->email)->queue(new PoApprovedMail($po));
+                // Queue setelah commit agar job tidak dieksekusi sebelum data benar-benar tersimpan.
+                Mail::to($user->email)->queue((new PoApprovedMail($po))->afterCommit());
             }
         }
     }

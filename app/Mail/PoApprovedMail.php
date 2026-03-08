@@ -26,7 +26,7 @@ class PoApprovedMail extends Mailable
         $this->po = $po;
         $this->perusahaan = Perusahaan::query()
             ->orderBy('id')
-            ->first(['nama', 'alamat', 'email', 'no_wa', 'logo']);
+            ->first();
 
         // Persiapkan Logo Base64 agar muncul di email meskipun testing lokal
         $logoPath = public_path('assets/logo.png');
